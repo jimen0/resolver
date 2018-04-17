@@ -71,7 +71,7 @@ func TestResolveList(t *testing.T) {
 			},
 			domains: []string{"scanme.nmap.org"},
 			servers: defaultServers,
-			exp:     []result{result{name: "scanme.nmap.org", destination: []string{"45.33.32.156"}}},
+			exp:     []result{{name: "scanme.nmap.org", destination: []string{"45.33.32.156"}}},
 		},
 		{
 			name: "no DNS servers",
@@ -93,7 +93,7 @@ func TestResolveList(t *testing.T) {
 			},
 			domains: []string{"hub.github.com"},
 			servers: defaultServers,
-			exp:     []result{result{name: "hub.github.com", destination: []string{"github.map.fastly.net."}}},
+			exp:     []result{{name: "hub.github.com", destination: []string{"github.map.fastly.net."}}},
 		},
 		{
 			name: "resolve using non existing DNS server",
