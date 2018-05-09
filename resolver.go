@@ -8,12 +8,12 @@ import (
 	"github.com/miekg/dns"
 )
 
-// result represents a domain name and its destinations.
-type result struct {
-	// name is the domain name.
-	name string
-	// destination is the list of addresses where it resolves to.
-	destination []string
+// Result represents a domain name and its destinations.
+type Result struct {
+	// Name is the domain name.
+	Name string
+	// Destination is the list of addresses where it resolves to.
+	Destination []string
 }
 
 // ErrNoResponse is returned when all resolution retries were done and no
@@ -48,7 +48,7 @@ func New(record string, retries, workers int) (*Resolver, error) {
 
 // ResolveList resolves a slice of hosts and returns the destintations
 // they resolve to over the out channel.
-func (r *Resolver) ResolveList(ctx context.Context, domains, servers []string, out chan<- result) error {
+func (r *Resolver) ResolveList(ctx context.Context, domains, servers []string, out chan<- Result) error {
 	defer close(out)
 
 	if len(domains) == 0 {
@@ -102,7 +102,7 @@ func (r *Resolver) ResolveList(ctx context.Context, domains, servers []string, o
 				}
 
 				if len(dst) > 0 {
-					out <- result{name: v, destination: dst}
+					out <- Result{Name: v, Destination: dst}
 				}
 			}
 		}(ch)

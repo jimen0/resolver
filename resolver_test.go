@@ -60,7 +60,7 @@ func TestResolveList(t *testing.T) {
 		r       *Resolver
 		domains []string
 		servers []string
-		exp     []result
+		exp     []Result
 	}{
 		{
 			name: "A record 1 worker valid query",
@@ -71,7 +71,7 @@ func TestResolveList(t *testing.T) {
 			},
 			domains: []string{"scanme.nmap.org"},
 			servers: defaultServers,
-			exp:     []result{{name: "scanme.nmap.org", destination: []string{"45.33.32.156"}}},
+			exp:     []Result{{Name: "scanme.nmap.org", Destination: []string{"45.33.32.156"}}},
 		},
 		{
 			name: "no DNS servers",
@@ -93,7 +93,7 @@ func TestResolveList(t *testing.T) {
 			},
 			domains: []string{"hub.github.com"},
 			servers: defaultServers,
-			exp:     []result{{name: "hub.github.com", destination: []string{"github.map.fastly.net."}}},
+			exp:     []Result{{Name: "hub.github.com", Destination: []string{"github.github.io."}}},
 		},
 		{
 			name: "resolve using non existing DNS server",
@@ -110,9 +110,9 @@ func TestResolveList(t *testing.T) {
 
 	for _, tc := range tt {
 		t.Run(tc.name, func(t *testing.T) {
-			out := make(chan result)
+			out := make(chan Result)
 			done := make(chan struct{})
-			var res []result
+			var res []Result
 
 			go func() {
 				for v := range out {
@@ -157,7 +157,7 @@ func TestResolve(t *testing.T) {
 			host:   "hub.github.com",
 			srv:    defaultServers,
 			record: "CNAME",
-			exp:    []string{"github.map.fastly.net."},
+			exp:    []string{"github.github.io."},
 		},
 		{
 			name:   "valid PTR record",
@@ -186,7 +186,7 @@ func TestResolve(t *testing.T) {
 			srv:     []string{"127.0.0.1:0", "8.8.8.8:53"},
 			record:  "CNAME",
 			retries: 1,
-			exp:     []string{"github.map.fastly.net."},
+			exp:     []string{"github.github.io."},
 		},
 		{
 			name:    "multiple invalid DNS servers",
